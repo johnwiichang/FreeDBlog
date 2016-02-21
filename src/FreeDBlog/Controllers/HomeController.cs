@@ -22,7 +22,7 @@ namespace FreeDBlog.Controllers
         {
             ViewBag.Title = "Index";
             //Get the configured folder files info and sort it by create time.
-            var files = new DirectoryInfo("pages/").GetFileSystemInfos("*.html").OrderByDescending(f => f.CreationTime);
+            var files = new DirectoryInfo(_appsetting.DNXFolder).GetFileSystemInfos("*.html").OrderByDescending(f => f.CreationTime);
             //---Pagenavi start here ---
             //Calculate the number of pages.
             var pnum = Page ?? 1;

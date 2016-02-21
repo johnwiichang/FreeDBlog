@@ -40,6 +40,7 @@ namespace FreeDBlog
                 x.PageNaviNum = Int32.Parse(Configuration.GetSection("Data:PageNavi:Max").Value);
                 x.UserName = Configuration.GetSection("Admin:UserName").Value;
                 x.Password = Configuration.GetSection("Admin:Password").Value;
+                x.DNXFolder = (System.IO.Directory.Exists("./wwwroot/" + x.FilePath) ? "./wwwroot/" + x.FilePath : x.FilePath) + "/";
             });
 
         }
