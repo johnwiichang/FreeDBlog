@@ -24,15 +24,16 @@
             </div>
         </div>
     </div>
-
     <div class="container body-content">
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My FreeDBlog</p>
+            @{
+                var OS = Environment.GetEnvironmentVariable("OS") ?? ((Environment.GetEnvironmentVariable("TERM_PROGRAM") ?? "").Contains("Apple") ? "OS X" : "Linux");
+            }
+            <p>&copy; @DateTime.Now.Year - My FreeDBlog - @(OS.Contains("Windows") ? "Windows" : OS)</p>
         </footer>
     </div>
-
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
 </body>

@@ -1,10 +1,10 @@
 ﻿using FreeDBlog.Services;
-using Microsoft.AspNet.Mvc;
-using Microsoft.Extensions.OptionsModel;
 using System.IO;
 using System.Linq;
 using FreeDBlog.Models;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 namespace FreeDBlog.Controllers
 {

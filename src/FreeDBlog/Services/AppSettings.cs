@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace FreeDBlog.Services
 {
@@ -12,7 +9,6 @@ namespace FreeDBlog.Services
         public String UserName { get; set; }
         public String Password { get; set; }
         public String DNXFolder { get; set; }
-
         public int PageNaviNum { get; set; }
     }
 }

@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNet.Builder;
-using Microsoft.AspNet.Hosting;
-using Microsoft.AspNet.Http;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Configuration;
-using Microsoft.AspNet.Mvc;
+using Microsoft.Extensions.Logging;
 using FreeDBlog.Services;
-using Microsoft.AspNet.StaticFiles;
+using Microsoft.Extensions.Configuration;
 
 namespace FreeDBlog
 {
@@ -19,9 +14,10 @@ namespace FreeDBlog
         {
             // Set up configuration sources.
             var builder = new ConfigurationBuilder()
+                .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json")
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
-
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+                .AddEnvironmentVariables();
             builder.AddEnvironmentVariables();
             Configuration = builder.Build();
         }
@@ -40,26 +36,14 @@ namespace FreeDBlog
                 x.PageNaviNum = Int32.Parse(Configuration.GetSection("Data:PageNavi:Max").Value);
                 x.UserName = Configuration.GetSection("Admin:UserName").Value;
                 x.Password = Configuration.GetSection("Admin:Password").Value;
-                x.DNXFolder = (System.IO.Directory.Exists("./wwwroot/" + x.FilePath) ? "./wwwroot/" + x.FilePath : x.FilePath) + "/";
+                x.DNXFolder = "./wwwroot/" + x.FilePath + "/";
             });
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            app.UseIISPlatformHandler();
-
-            //app.Run(async (context) =>
-            //{
-            //    await context.Response.WriteAsync("Hello World!");
-            //});
             app.UseStaticFiles();
-            //app.UseStaticFiles(new StaticFileOptions()
-            //{
-            //    RequestPath = "/wwwroot"
-            //});
-            //app.UseIdentity();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
@@ -67,8 +51,5 @@ namespace FreeDBlog
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
         }
-
-        // Entry point for the application.
-        public static void Main(string[] args) => WebApplication.Run<Startup>(args);
     }
 }
