@@ -1,0 +1,46 @@
+﻿@model List<Blog>
+
+<div class="col-lg-8">
+    @foreach (var item in Model)
+    {
+        <div>
+            <div class="page-header panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">@item.Id <small style="color:whitesmoke">@item.CreateTime</small></h3>
+                </div>
+                <div class="panel-body">
+                    @Html.Raw(item.Content)
+                </div>
+            </div>
+        </div>
+    }
+    <nav>
+        <ul class="pagination">
+            @if (ViewBag.PageCount != 0)
+            {
+                <li class="@(ViewBag.Page == 1 ? "disabled" : "")"><a href="@(ViewBag.Page == 1 ? "#" : Url.Action("Index", "Home", new { Page = ViewBag.Page - 1 }))" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+                @for (int i = (ViewBag.Page / 5 > 0 ? 5 * (ViewBag.Page / 5) : 1); i <= (5 * (ViewBag.Page / 5 + 1) > ViewBag.PageCount ? ViewBag.PageCount : (5 * (ViewBag.Page / 5 + 1))); i++)
+                {
+                    <li class="@(i == ViewBag.Page ? "active" : "")"><a href="@Url.Action("Index", "Home", new { Page = i })">@i </a></li>
+                }
+                <li class="@(ViewBag.Page == ViewBag.PageCount ? "disabled" : "")"><a href="@(ViewBag.Page == ViewBag.PageCount ? "#" : Url.Action("Index", "Home", new { Page = ViewBag.Page + 1 }))" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
+            }
+        </ul>
+    </nav>
+</div>
+<div class="col-lg-4">
+    <div class="page-header jumbotron">
+        <h2>FreeDBlogCore</h2>
+        <p>Pure Blog System without DB.</p>
+        <h5>Powered by ASP.NET Core.</h5>
+        <p><a class="btn btn-primary" href="http://prpr.pro/?go=aa2a6" role="button">Learn more</a></p>
+    </div>
+    <div class="page-header list-group" style="border:none">
+        <a href="#" class="list-group-item active">
+            Home
+        </a>
+        <a href="http://prpr.pro/?go=92339" class="list-group-item">How to...</a>
+        <a href="http://prpr.pro/?go=e4229" class="list-group-item">View the GitHub project </a>
+    </div>
+</div>
+<div class="col-lg-8 clearfix" />
